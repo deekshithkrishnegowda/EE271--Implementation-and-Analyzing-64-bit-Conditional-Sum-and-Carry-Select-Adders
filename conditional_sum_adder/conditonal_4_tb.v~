@@ -1,0 +1,40 @@
+module conditionalsum_64();
+
+wire [63:0]sum;
+wire cout,complete,overf;
+reg [63:0]ope1,ope2;
+reg add_sub,start,reset,clock;
+
+conditional_sum_adder_64 DUT (ope1,ope2,Cin,add_sub,reset,clock,start,
+       		             sum,cout,complete,overf );
+
+always
+begin
+	clock=1'b0;
+	#5;clock=1'b1;
+	#5;
+end
+
+initial
+begin
+	ope1=$random;
+	ope2=$random;
+	add_sub=0;
+	@(negedge clock);
+	start=1;
+	reset=0;
+	#12;
+	start=0;
+	reset=1;
+	#10;
+	start=1;
+	reset=0;
+	ope1=64'd54979846;
+	ope2=$random;
+	add_sub=0;
+	#10;
+	$finish;
+end
+endmodule
+
+
